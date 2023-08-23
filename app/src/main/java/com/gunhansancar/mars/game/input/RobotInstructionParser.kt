@@ -1,5 +1,14 @@
 package com.gunhansancar.mars.game.input
 
+/**
+ * Parses instructions given by the user which contains two sets of data
+ * First line contains X, Y, and orientation of the robot
+ * Second line contains the commands that a robot can execute
+ *
+ * i.e.
+ * 1 1 E
+ * RFRFRFRF
+ */
 class RobotInstructionParser {
     private val coordinateParser = CoordinateParser()
 
@@ -38,6 +47,6 @@ class RobotInstructionParser {
         return Position(x, y, orientation)
     }
 
-    private fun parseDirections(input: String): List<Direction> =
-        input.toCharArray().map { Direction.from(it.toString()) ?: return emptyList() }
+    private fun parseDirections(input: String): List<Command> =
+        input.toCharArray().map { Command.from(it.toString()) ?: return emptyList() }
 }

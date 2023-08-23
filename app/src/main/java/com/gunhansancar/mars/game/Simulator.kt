@@ -2,17 +2,21 @@ package com.gunhansancar.mars.game
 
 import com.gunhansancar.mars.game.input.SimulationData
 
+/**
+ * Simulates the given simulator data using the initial conditions and robot instructions
+ * Returns an output for each of the robot
+ */
 class Simulator {
     fun simulate(data: SimulationData): String {
         val scents = mutableListOf<Scent>()
         val result = StringBuilder()
 
-        data.instructions.forEach {
-            var position = it.position
+        data.instructions.forEach { robot ->
+            var position = robot.position
             var lost = false
 
-            for (direction in it.directions) {
-                val nextPosition = position.findNext(direction)
+            for (command in robot.commands) {
+                val nextPosition = command.execute(position)
 
                 if (
                     nextPosition.x >= data.x ||
@@ -32,7 +36,7 @@ class Simulator {
 
             result.append("${position.x} ${position.y} ${position.orientation.value}${if (lost) " LOST" else ""}")
 
-            if (it != data.instructions.lastOrNull()) {
+            if (robot != data.instructions.lastOrNull()) {
                 result.append("\n")
             }
         }

@@ -1,12 +1,8 @@
 package com.gunhansancar.mars.game.input
 
-import com.gunhansancar.mars.game.input.Direction.Forward
-import com.gunhansancar.mars.game.input.Direction.Left
-import com.gunhansancar.mars.game.input.Direction.Right
-import com.gunhansancar.mars.game.input.Orientation.East
-import com.gunhansancar.mars.game.input.Orientation.North
-import com.gunhansancar.mars.game.input.Orientation.South
-import com.gunhansancar.mars.game.input.Orientation.West
+import com.gunhansancar.mars.game.input.Command.Forward
+import com.gunhansancar.mars.game.input.Command.Left
+import com.gunhansancar.mars.game.input.Command.Right
 
 interface Instruction
 
@@ -23,31 +19,13 @@ data class BoardInstruction(
  * Robot instruction represents how a robot goes to a location
  */
 data class RobotInstruction(
-    val position: Position, val directions: List<Direction>
+    val position: Position, val commands: List<Command>
 ) : Instruction
 
 /**
- * Position of a robot
+ * Position of a robot specifying coordinates of the robot and an orientation
  */
-data class Position(
-    val x: Int, val y: Int, val orientation: Orientation
-) {
-    fun findNext(direction: Direction): Position = when (direction) {
-        Left -> Position(x, y, orientation.turnLeft())
-        Right -> Position(x, y, orientation.turnRight())
-        Forward -> {
-            val forward = findForward()
-            Position(forward.first, forward.second, orientation)
-        }
-    }
-
-    private fun findForward(): Pair<Int, Int> = when (orientation) {
-        North -> Pair(x, y + 1)
-        South -> Pair(x, y - 1)
-        West -> Pair(x - 1, y)
-        East -> Pair(x + 1, y)
-    }
-}
+data class Position(val x: Int, val y: Int, val orientation: Orientation)
 
 /**
  * Orientation of a robot
@@ -81,14 +59,36 @@ enum class Orientation(val value: String) {
 }
 
 /**
- * Direction of a robot
+ * Commands that a robot can execute in a simulation
+ *
+ * Currently robots can execute [Left], [Right], [Forward] commands
  * i.e. 'RFLF' means a robot goes Right, Forward, Left, and Forward
  */
-enum class Direction {
+enum class Command {
     Left, Right, Forward;
 
+    private fun findForward(position: Position): Pair<Int, Int> = when (position.orientation) {
+        Orientation.North -> Pair(position.x, position.y + 1)
+        Orientation.South -> Pair(position.x, position.y - 1)
+        Orientation.West -> Pair(position.x - 1, position.y)
+        Orientation.East -> Pair(position.x + 1, position.y)
+    }
+
+    /**
+     * Finds the next position after executing this command
+     */
+    fun execute(position: Position): Position = when (this) {
+        Left -> Position(position.x, position.y, position.orientation.turnLeft())
+        Right -> Position(position.x, position.y, position.orientation.turnRight())
+        Forward -> {
+            val forward = findForward(position)
+            Position(forward.first, forward.second, position.orientation)
+        }
+    }
+
+
     companion object {
-        fun from(input: String): Direction? = when (input) {
+        fun from(input: String): Command? = when (input) {
             "L" -> Left
             "R" -> Right
             "F" -> Forward

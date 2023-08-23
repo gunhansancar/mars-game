@@ -1,6 +1,6 @@
 package com.gunhansancar.mars.game
 
-import com.gunhansancar.mars.game.input.Direction
+import com.gunhansancar.mars.game.input.Command
 import com.gunhansancar.mars.game.input.Orientation
 import com.gunhansancar.mars.game.input.Position
 import com.gunhansancar.mars.game.input.RobotInstruction
@@ -20,12 +20,12 @@ class RobotInstructionParserTest {
                     RobotInstruction(
                         Position(10, 30, Orientation.East),
                         listOf(
-                            Direction.Right,
-                            Direction.Forward,
-                            Direction.Right,
-                            Direction.Forward,
-                            Direction.Right,
-                            Direction.Forward,
+                            Command.Right,
+                            Command.Forward,
+                            Command.Right,
+                            Command.Forward,
+                            Command.Right,
+                            Command.Forward,
                         )
                     )
                 )
@@ -36,23 +36,23 @@ class RobotInstructionParserTest {
                     RobotInstruction(
                         Position(10, 30, Orientation.East),
                         listOf(
-                            Direction.Right,
-                            Direction.Forward,
-                            Direction.Right,
-                            Direction.Forward,
-                            Direction.Right,
-                            Direction.Forward,
+                            Command.Right,
+                            Command.Forward,
+                            Command.Right,
+                            Command.Forward,
+                            Command.Right,
+                            Command.Forward,
                         )
                     ),
                     RobotInstruction(
                         Position(3, 2, Orientation.North),
                         listOf(
-                            Direction.Forward,
-                            Direction.Right,
-                            Direction.Right,
-                            Direction.Forward,
-                            Direction.Left,
-                            Direction.Left,
+                            Command.Forward,
+                            Command.Right,
+                            Command.Right,
+                            Command.Forward,
+                            Command.Left,
+                            Command.Left,
                         )
                     )
                 )

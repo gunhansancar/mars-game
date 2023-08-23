@@ -1,8 +1,8 @@
 package com.gunhansancar.mars.game
 
-import com.gunhansancar.mars.game.input.Direction.Forward
-import com.gunhansancar.mars.game.input.Direction.Left
-import com.gunhansancar.mars.game.input.Direction.Right
+import com.gunhansancar.mars.game.input.Command.Forward
+import com.gunhansancar.mars.game.input.Command.Left
+import com.gunhansancar.mars.game.input.Command.Right
 import com.gunhansancar.mars.game.input.InputParser
 import com.gunhansancar.mars.game.input.Orientation.East
 import com.gunhansancar.mars.game.input.Orientation.North
@@ -38,13 +38,13 @@ class InputParserTest {
                 listOf(
                     RobotInstruction(
                         position = Position(x = 1, y = 1, orientation = East),
-                        directions = listOf(
+                        commands = listOf(
                             Right, Forward, Right, Forward, Right, Forward, Right, Forward
                         )
                     ),
                     RobotInstruction(
                         position = Position(x = 3, y = 2, orientation = North),
-                        directions = listOf(
+                        commands = listOf(
                             Forward, Right, Right, Forward,
                             Left, Left, Forward, Forward, Right, Right, Forward,
                             Left, Left
@@ -52,7 +52,7 @@ class InputParserTest {
                     ),
                     RobotInstruction(
                         position = Position(x = 0, y = 3, orientation = West),
-                        directions = listOf(
+                        commands = listOf(
                             Left,
                             Left,
                             Forward,
