@@ -1,7 +1,14 @@
 package com.gunhansancar.mars.game.input
 
-interface Instruction {
-}
+import com.gunhansancar.mars.game.input.Direction.Forward
+import com.gunhansancar.mars.game.input.Direction.Left
+import com.gunhansancar.mars.game.input.Direction.Right
+import com.gunhansancar.mars.game.input.Orientation.East
+import com.gunhansancar.mars.game.input.Orientation.North
+import com.gunhansancar.mars.game.input.Orientation.South
+import com.gunhansancar.mars.game.input.Orientation.West
+
+interface Instruction
 
 /**
  * Board instruction represents the size of the board
@@ -9,39 +16,65 @@ interface Instruction {
  * @param y represents the y length
  */
 data class BoardInstruction(
-    val x: Int,
-    val y: Int
+    val x: Int, val y: Int
 ) : Instruction
 
 /**
  * Robot instruction represents how a robot goes to a location
  */
 data class RobotInstruction(
-    val position: Position,
-    val directions: List<Direction>
+    val position: Position, val directions: List<Direction>
 ) : Instruction
 
 /**
  * Position of a robot
  */
 data class Position(
-    val x: Int,
-    val y: Int,
-    val orientation: Orientation
-)
+    val x: Int, val y: Int, val orientation: Orientation
+) {
+    fun findNext(direction: Direction): Position = when (direction) {
+        Left -> Position(x, y, orientation.turnLeft())
+        Right -> Position(x, y, orientation.turnRight())
+        Forward -> {
+            val forward = findForward()
+            Position(forward.first, forward.second, orientation)
+        }
+    }
+
+    private fun findForward(): Pair<Int, Int> = when (orientation) {
+        North -> Pair(x, y + 1)
+        South -> Pair(x, y - 1)
+        West -> Pair(x - 1, y)
+        East -> Pair(x + 1, y)
+    }
+}
 
 /**
  * Orientation of a robot
  */
-enum class Orientation {
-    North, South, West, East;
+enum class Orientation(val value: String) {
+    North("N"), South("S"), West("W"), East("E");
+
+    fun turnLeft(): Orientation = when (this) {
+        North -> West
+        South -> East
+        West -> South
+        East -> North
+    }
+
+    fun turnRight(): Orientation = when (this) {
+        North -> East
+        South -> West
+        West -> North
+        East -> South
+    }
 
     companion object {
         fun from(input: String): Orientation? = when (input) {
-            "N" -> North
-            "S" -> South
-            "W" -> West
-            "E" -> East
+            North.value -> North
+            South.value -> South
+            West.value -> West
+            East.value -> East
             else -> null
         }
     }

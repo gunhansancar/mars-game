@@ -10,21 +10,18 @@ class InputParser {
     private val boardInstructionParser = BoardInstructionParser()
     private val robotInstructionParser = RobotInstructionParser()
 
-    fun parse(input: String): List<Instruction> {
-        if (input.length > Constants.InputMaxSize) return emptyList()
+    fun parse(input: String): SimulationData? {
+        if (input.length > Constants.InputMaxSize) return null
 
         val lines = input.trim().split("\n")
 
-        if (lines.isEmpty()) return emptyList()
+        if (lines.isEmpty()) return null
 
-        val result = mutableListOf<Instruction>()
-
-        val boardInstruction = boardInstructionParser.parse(lines[0]) ?: return result
-        result.add(boardInstruction)
-
+        val boardInstruction = boardInstructionParser.parse(lines[0]) ?: return null
         val robotInstruction = robotInstructionParser.parse(lines.subList(1, lines.size))
-        result.addAll(robotInstruction)
 
-        return result
+        return SimulationData(boardInstruction.x + 1, boardInstruction.y + 1, robotInstruction)
     }
 }
+
+data class SimulationData(val x: Int, val y: Int, val instructions: List<RobotInstruction>)
