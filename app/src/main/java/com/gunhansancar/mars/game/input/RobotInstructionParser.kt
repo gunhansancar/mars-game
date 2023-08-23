@@ -1,5 +1,9 @@
 package com.gunhansancar.mars.game.input
 
+import com.gunhansancar.mars.game.model.Command
+import com.gunhansancar.mars.game.model.Orientation
+import com.gunhansancar.mars.game.model.Position
+
 /**
  * Parses instructions given by the user which contains two sets of data
  * First line contains X, Y, and orientation of the robot
