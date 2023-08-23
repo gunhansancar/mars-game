@@ -18,7 +18,7 @@ class InputParser {
         if (lines.isEmpty()) return null
 
         val boardInstruction = boardInstructionParser.parse(lines[0]) ?: return null
-        val robotInstruction = robotInstructionParser.parse(lines.subList(1, lines.size))
+        val robotInstruction = robotInstructionParser.parse(lines.drop(1))
 
         return SimulationData(boardInstruction.x + 1, boardInstruction.y + 1, robotInstruction)
     }

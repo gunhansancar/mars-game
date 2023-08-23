@@ -57,6 +57,10 @@ class RobotInstructionParserTest {
                     )
                 )
             ),
+            Pair(
+                listOf("10 30 E"),
+                emptyList()
+            ),
             Pair(emptyList(), emptyList()),
         ).forEach { testParse(it) }
     }

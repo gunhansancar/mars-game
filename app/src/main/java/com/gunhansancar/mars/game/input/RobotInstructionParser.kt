@@ -13,21 +13,19 @@ class RobotInstructionParser {
     private val coordinateParser = CoordinateParser()
 
     fun parse(inputs: List<String>): List<RobotInstruction> {
+        val robotLines = inputs.filter { it != "\n" && it.isNotBlank() }
+
         val result = mutableListOf<RobotInstruction>()
-        if (inputs.isEmpty()) {
-            return result
-        }
-
         var i = 0
-        while (i < inputs.size) {
-            val position = parsePosition(inputs[i])
-            val direction = parseDirections(inputs[i + 1])
+        while (i + 1 < robotLines.size) {
+            val position = parsePosition(robotLines[i])
+            val command = parseCommands(robotLines[i + 1])
 
-            if(position != null) {
-                result.add(RobotInstruction(position, direction))
+            if (position != null) {
+                result.add(RobotInstruction(position, command))
             }
 
-            i += 3
+            i += 2
         }
 
         return result
@@ -47,6 +45,6 @@ class RobotInstructionParser {
         return Position(x, y, orientation)
     }
 
-    private fun parseDirections(input: String): List<Command> =
+    private fun parseCommands(input: String): List<Command> =
         input.toCharArray().map { Command.from(it.toString()) ?: return emptyList() }
 }

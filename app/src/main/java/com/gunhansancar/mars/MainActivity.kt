@@ -100,7 +100,7 @@ class MainActivity : ComponentActivity() {
     private fun simulate(input: String): String {
         val result = "Invalid data"
         val data = inputParser.parse(input) ?: return result
-        return simulator.simulate(data)
+        return simulator.simulate(data).ifEmpty { "No valid data" }
     }
 }
 
